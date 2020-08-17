@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import kanban from "./constants";
 
 function App() {
@@ -12,25 +12,43 @@ function App() {
     <div className="App">
       <header className="App-header">
         <DragDropContext onDragEnd={(e) => dragEnd(e)}>
-          <Droppable droppableId="allCards" key="allCards">
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef} className="list-container">
-                {kanban.map((list, index) => {
-                  return (
-                    <div className="list" key={`list-${index}`}>
+          <div className="list-container">
+            {kanban.map((list, index) => {
+              return (
+                <Droppable key={`list-${index}`} droppableId={String(index)}>
+                  {(provided2, snapshot2) => (
+                    <div
+                      ref={provided2.innerRef}
+                      className="list"
+                      key={`list-${index}`}
+                    >
                       {list.cards.map((card, i) => {
                         return (
-                          <div className="card" key={`card-${i}`}>
-                            {card.id}
-                          </div>
+                          <Draggable
+                            key={card.id}
+                            draggableId={card.id}
+                            index={i}
+                          >
+                            {(provided3, snapshot3) => (
+                              <div
+                                ref={provided3.innerRef}
+                                {...provided3.draggableProps}
+                                {...provided3.dragHandleProps}
+                                className="card"
+                                key={`card-${i}`}
+                              >
+                                {card.id}
+                              </div>
+                            )}
+                          </Draggable>
                         );
                       })}
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </Droppable>
+                  )}
+                </Droppable>
+              );
+            })}
+          </div>
         </DragDropContext>
       </header>
     </div>

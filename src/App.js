@@ -8,24 +8,29 @@ function App() {
     console.log("DragEnd", e);
   };
 
-  console.log(kanban);
   return (
     <div className="App">
       <header className="App-header">
         <DragDropContext onDragEnd={(e) => dragEnd(e)}>
-          <div className="container">
-            <Droppable key="allCards" droppableId="allCards">
-              {(provided, snapshot) => (
-                <div className="list-container">
-                  {kanban.forEach((index, list) => (
-                    <div className="list" key={index}>
-                      meu teste
+          <Droppable droppableId="allCards" key="allCards">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef} className="list-container">
+                {kanban.map((list, index) => {
+                  return (
+                    <div className="list" key={`list-${index}`}>
+                      {list.cards.map((card, i) => {
+                        return (
+                          <div className="card" key={`card-${i}`}>
+                            {card.id}
+                          </div>
+                        );
+                      })}
                     </div>
-                  ))}
-                </div>
-              )}
-            </Droppable>
-          </div>
+                  );
+                })}
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
       </header>
     </div>

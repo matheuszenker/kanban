@@ -16,9 +16,9 @@ function App() {
             {kanban.map((list, index) => {
               return (
                 <Droppable key={`list-${index}`} droppableId={String(index)}>
-                  {(provided2, snapshot2) => (
+                  {(provided) => (
                     <div
-                      ref={provided2.innerRef}
+                      ref={provided.innerRef}
                       className="list"
                       key={`list-${index}`}
                     >
@@ -29,11 +29,11 @@ function App() {
                             draggableId={card.id}
                             index={i}
                           >
-                            {(provided3, snapshot3) => (
+                            {(provided, snapshot3) => (
                               <div
-                                ref={provided3.innerRef}
-                                {...provided3.draggableProps}
-                                {...provided3.dragHandleProps}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
                                 className="card"
                                 key={`card-${i}`}
                               >
